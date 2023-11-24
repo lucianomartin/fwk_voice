@@ -68,19 +68,20 @@ def run(xe, input_file, return_stdout=False):
          assert False, "Invalid input file"
     adapter_id = get_adapter_id()
     print("Running on adapter_id ",adapter_id)
-    if return_stdout == False:
-        xscope_fileio.run_on_target(adapter_id, xe)
-    else:
-        with open("prof.txt", "w+") as ff:
-            xscope_fileio.run_on_target(adapter_id, xe, stdout=ff)
-            ff.seek(0)
-            stdout = ff.readlines()
-        return stdout
+    for i in range(50):
+        if return_stdout == False:
+            xscope_fileio.run_on_target(adapter_id, xe)
+        else:
+            with open("prof.txt", "w+") as ff:
+                xscope_fileio.run_on_target(adapter_id, xe, stdout=ff)
+                ff.seek(0)
+                stdout = ff.readlines()
+            return stdout
 
 if __name__ == "__main__":
     args = parse_arguments()
     assert args.xe is not None, "Specify vaild .xe file"
     print(f"args.input = {args.input}")
-         
+
     run(args.xe, args.input)
 
